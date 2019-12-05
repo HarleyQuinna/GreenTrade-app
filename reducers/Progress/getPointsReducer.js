@@ -1,6 +1,7 @@
-import {GET_POINTS} from '../../actions/Progress/actionTypes';
+import {GET_POINTS, STORE_USERNAME} from '../../actions/Progress/actionTypes';
 const initialState = {
     points: 0,
+    username: ''
 };
 
 const getPointsReducer = (state = initialState, action) => {
@@ -9,6 +10,11 @@ const getPointsReducer = (state = initialState, action) => {
             return {
                 ...state,
                 points: action.payload
+            };
+            case STORE_USERNAME:
+            return {
+                ...state,
+                username: action.payload
             };
         default:
             return state;

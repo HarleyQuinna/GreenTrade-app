@@ -17,8 +17,9 @@ import SignUpView from "../navigations/SignUpScreen/SignUpView";
 import CollectorPickupView from "../navigations/CollectorPickupLocationScreen/container";
 import CollectorPickupHistory from "../navigations/CollectorPickupHistory/CollectorPickupHistoryView";
 import Scheduling from "../navigations/SchedulePickUp/Scheduling";
-import InitialView from "../navigations/InitialHomeScreen/InitialView";
 import ContainerView from "../navigations/ContainerScreen/ContainerView";
+import {connect} from 'react-redux'
+import {getPoints, storeUsernaem} from '../actions/Progress/actionCreators';
 
 
 class DrawerComponent extends Component {
@@ -35,7 +36,9 @@ class DrawerComponent extends Component {
             user.get().then(u => {
               if (u.exists) {
                  this.setState({user: u.data()});
+                 this.props.storeUsernaem(this.state.user.displayName)
                  console.log(this.state);
+
                 }
             });
         }
@@ -208,13 +211,23 @@ const AuthStack = createStackNavigator({
     SignUp: SignUpView
 });
 
-export default createAppContainer(createSwitchNavigator(
-  {
-    Splash: SplashView,
-    Auth: AuthStack,
-    App: DrawerNavigator,
-  },
-  {
-    initialRouteName: 'Splash'
-  }
-));
+const mapStateToProps = (state) => ({
+    points: state.getPointsReducer.points,
+    username: state.getPointsReducer.username
+})
+
+const mapDispatchToProps = (dispatch) => ({
+    getPoints: (points) => dispatch(getPoints(points)),
+    storeUsernaem: (username) => dispatch(storeUsernaem(username)),
+
+ })
+export default connect(mapStateToProps, mapDispatchToProps)(createAppContainer(createSwitchNavigator(
+    {
+      Splash: SplashView,
+      Auth: AuthStack,
+      App: DrawerNavigator,
+    },
+    {
+      initialRouteName: 'Splash'
+    }
+  )))

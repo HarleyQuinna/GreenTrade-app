@@ -39,7 +39,8 @@ export default class HomeView extends Component {
 			maxPoint: 1000,
 			percentage: null,
 			point: 50,
-			isAdded: false
+			isAdded: false,
+			user: {},
 		  };
 
 
@@ -80,10 +81,7 @@ export default class HomeView extends Component {
 			  if (doc.data().userId==firebase.auth().currentUser.uid && doc.data().Collected == false)
 			  {   
 				this.props.points = this.props.points + parseInt(doc.data().estimatedPoints);
-			p = sum / this.state.maxPoint;
-			h = p* wp('40%');
-			//console.log(this.state.name + "is showing")
-			this.setState({totalPoint: sum, percentage: p, height: h});
+
 			console.log(this.props.points)
 			console.log(parseInt(this.props.points)/this.state.maxPoint)
 				}
@@ -138,7 +136,7 @@ export default class HomeView extends Component {
 					contentContainerStyle={styles.contentContainer}
 				>
 					<View style={styles.welcomeWrapper}>
-		<Text style={styles.welcomeTxt}>{'Welcome Back'.toUpperCase()}, {currentUser.toUpperCase()}!</Text>
+	<Text style={styles.welcomeTxt}>{'Welcome Back'.toUpperCase()}, {this.props.username.toUpperCase()} !</Text>
 					</View>
 					 <View>
 					 {this.props.points/this.state.maxPoint * 100 <= 80 ? (  
@@ -202,12 +200,10 @@ export default class HomeView extends Component {
                    visible={this.state.dialogVisible}
                    >
                        <View style={styles.customDialog}>
-                       <Button
-							onPress={this._pickImage}
-							title="Choose from camera roll"
-						/>
-						<Button onPress={this._takePhoto} title="Take a photo" />
-            <Button onPress={this._canceltoggle} title="Cancel" />
+
+						<TouchableOpacity onPress={this._pickImage}><Text style={styles.btnTxt}>Choose from camera roll</Text></TouchableOpacity>
+						<TouchableOpacity onPress={this._takePhoto}><Text style={styles.btnTxt}>Take a photo</Text></TouchableOpacity>
+						<TouchableOpacity onPress={this._canceltoggle}><Text style={styles.btnTxt}>Cancel</Text></TouchableOpacity>
                        </View>
                 </Dialog>
                 </View>
@@ -237,12 +233,10 @@ export default class HomeView extends Component {
 								switch (item.description) {
 									case "Plastic":
 										this.props.addPoints(50)
-										this.setState({point: 50})
 										alert(`Awsome, you get plastic!`);
 										break;
 									case "Metal":
 										this.props.addPoints(70)
-										this.setState({point: 70})
 										alert(`Awsome, you got metal!`);
 										break;
 									default:

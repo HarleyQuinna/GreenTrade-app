@@ -89,7 +89,9 @@ _renderTabBar = props => {
      </View>
      <View style={styles.topContainer}>
      <Icon name='star' type='material-community' color='#FBDFAA' iconStyle={styles.starIcon}/>
+     <View style={styles.pointContainer}>
      <Text style={styles.pointText}>{this.state.currentUserPoint.point}</Text>
+     </View>
      <Image resizeMethod="resize" source={{uri:'https://cdn.dribbble.com/users/1281708/screenshots/4676637/____dribbble.gif'}} style={styles.headerImg}/>
           <TabBar
           {...props}
